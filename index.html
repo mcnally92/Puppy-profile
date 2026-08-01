@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>재성 · 강아지 유치원 지원서</title>
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light only">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#FFFFFF; --card:#FFFCF6;
+  --ink:#4A3226;      /* 진한 웜브라운 - 제목 */
+  --ink2:#6B5344;     /* 본문 */
+  --pencil:#A98A6E;   /* 보조 설명 */
+  --dash:#EBDDC9;     /* 점선 */
+  --crayon:#E39247; --mustard:#F0B23F; --brick:#C1573A; --cocoa:#8B5E3C;
+}
+html,body{background:#FFFFFF !important;background-color:#FFFFFF !important;color-scheme:light only}
+#page{background:#FFFFFF !important;min-height:100vh;position:relative;z-index:0}
+@media (prefers-color-scheme:dark){
+  html,body,#page{background:#FFFFFF !important;background-color:#FFFFFF !important}
+  body{color:#6B5344 !important}
+  h1,h2,.rname,.sh-name,.close{color:#4A3226 !important}
+  .role{color:#C1573A !important}
+  .eyebrow,.tag,.rsub,.hint,.thanks,.sh-sub{color:#A98A6E !important}
+  .note{background:#FFFCF6 !important;color:#6B5344 !important}
+  #sheet{background:#FFFFFF !important}
+  .facts b{color:#8B5E3C !important}
+  .li{color:#6B5344 !important}
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#FFFFFF; color:var(--ink2); min-height:100vh; padding-bottom:52px;
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo",sans-serif;
+  -webkit-font-smoothing:antialiased; -webkit-tap-highlight-color:transparent; overflow-x:hidden;
+}
+.col{max-width:430px;margin:0 auto;padding:0 22px}
+.dash{height:0;border-top:2px dashed var(--dash);margin:30px 0}
+
+/* ── 등장 모션 ── */
+.rise{opacity:0;animation:rise .72s cubic-bezier(.2,.9,.3,1.15) forwards}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.pop{opacity:0;animation:pop .62s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes pop{0%{opacity:0;transform:scale(.3) rotate(-18deg)}
+  60%{opacity:1;transform:scale(1.18) rotate(5deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+.draw{stroke-dasharray:100;stroke-dashoffset:100;animation:draw .8s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes wag{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+@keyframes spin{from{transform:rotate(-10deg);opacity:.9}to{transform:rotate(360deg);opacity:0}}
+
+/* ── 헤더 ── */
+header{padding:28px 0 0;text-align:center}
+.dogwrap{width:152px;margin:0 auto;animation:pop .8s cubic-bezier(.34,1.56,.64,1) forwards;opacity:0}
+.dog{width:152px;height:152px;display:block;transform:rotate(-3deg)}
+#tail{transform-box:fill-box;transform-origin:14% 86%;animation:wag 1.15s ease-in-out infinite}
+.eyebrow{font-family:Gaegu,sans-serif;font-size:17px;color:var(--pencil)}
+h1{font-family:Gaegu,sans-serif;font-size:54px;font-weight:700;line-height:.95;color:var(--ink);margin-top:4px}
+.role{font-family:Gaegu,sans-serif;font-size:22px;color:var(--brick);margin-top:2px}
+.tag{font-size:14px;color:var(--pencil);margin-top:14px;line-height:1.7}
+
+h2{font-family:Gaegu,sans-serif;font-size:27px;font-weight:700;color:var(--ink)}
+.hint{font-size:12.5px;color:var(--pencil);margin:2px 0 24px;display:flex;align-items:center;gap:5px}
+.hint svg{width:15px;height:15px;color:var(--crayon);animation:bob 1.5s ease-in-out infinite}
+
+/* ── 차트 ── */
+svg.chart{display:block;margin:0 auto;overflow:visible}
+.lbl{cursor:pointer;opacity:0}
+.lbl text{fill:var(--cocoa);font-family:Gaegu,sans-serif;font-size:19px;font-weight:700}
+.lbl.on text{fill:var(--brick)}
+.dot{transform-box:fill-box;transform-origin:50% 50%;transition:r .25s cubic-bezier(.34,1.56,.64,1)}
+
+/* ── 목록 ── */
+.rows{margin-top:16px}
+.row{width:100%;text-align:left;background:none;border:0;border-top:2px dashed var(--dash);
+  padding:13px 2px;display:flex;align-items:center;gap:10px;color:inherit;cursor:pointer;font:inherit;
+  opacity:0;animation:rise .6s cubic-bezier(.2,.9,.3,1.15) forwards}
+.rows .row:last-child{border-bottom:2px dashed var(--dash)}
+.row:focus-visible{outline:2px solid var(--brick);outline-offset:3px;border-radius:8px}
+.row:active .rname{transform:scale(.96)}
+.rname{font-family:Gaegu,sans-serif;font-size:22px;font-weight:700;color:var(--ink);min-width:62px;
+  transition:transform .15s}
+.rsub{font-size:11.5px;color:var(--pencil);flex:1;line-height:1.4}
+.stars{flex:none;display:block;overflow:visible}
+.st{opacity:0;animation:starIn .3s steps(1,end) forwards}
+/* 하이글로시 : 밝은 띠가 별을 비스듬히 훑고 지나감 */
+.gsweep{animation:glint var(--gd,2.8s) cubic-bezier(.4,0,.5,1) infinite both}
+@keyframes glint{
+  0%{transform:translateX(-30px)}
+  20%{transform:translateX(34px)}
+  100%{transform:translateX(34px)}}
+/* 뾰로롱 : 띠가 빠져나가는 순간 튀는 반짝 */
+.twk{transform-box:fill-box;transform-origin:50% 50%;opacity:0;
+  animation:twink var(--gd,2.8s) linear infinite both}
+@keyframes twink{
+  0%,8%{opacity:0;transform:scale(0) rotate(-20deg)}
+  14%{opacity:1;transform:scale(1.25) rotate(15deg)}
+  20%{opacity:.85;transform:scale(.62) rotate(38deg)}
+  27%,100%{opacity:0;transform:scale(0) rotate(55deg)}}
+@keyframes starIn{0%{opacity:0}34%{opacity:.45}67%{opacity:.8}100%{opacity:1}}
+.chev{color:var(--dash);font-size:18px}
+
+
+/* ── 카드 / 정보 ── */
+.note{background:var(--card);border:2px solid var(--ink);border-radius:22px 8px 24px 10px;
+  padding:18px 20px;font-size:14px;line-height:1.8;transform:rotate(-.6deg);color:var(--ink2)}
+.facts div{display:flex;padding:10px 2px;font-size:13.5px;border-bottom:2px dashed var(--dash)}
+.facts div:last-child{border-bottom:0}
+.facts span{flex:1;min-width:0}
+.facts b{width:88px;color:var(--cocoa);font-family:Gaegu,sans-serif;font-size:18px;font-weight:700;
+  white-space:nowrap;flex:none}
+.paws{text-align:center;margin-top:36px}
+.paws svg{width:24px;height:24px;margin:0 6px;animation:bob 1.4s ease-in-out infinite}
+.thanks{font-family:Gaegu,sans-serif;font-size:21px;color:var(--pencil);text-align:center;margin-top:6px}
+
+/* ── 상세 시트 ── */
+#scrim{position:fixed;inset:0;background:rgba(74,50,38,.3);opacity:0;pointer-events:none;
+  transition:opacity .25s;z-index:4}
+#scrim.on{opacity:1;pointer-events:auto}
+#sheet{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:3px solid var(--ink);
+  border-radius:28px 28px 0 0;transform:translateY(102%);
+  transition:transform .4s cubic-bezier(.2,1.1,.3,1);max-width:430px;margin:0 auto;
+  padding:16px 24px 34px;max-height:84vh;overflow-y:auto;z-index:5}
+#sheet.on{transform:translateY(0)}
+.grab{width:44px;height:4px;background:var(--dash);border-radius:3px;margin:0 auto 16px}
+.art{width:156px;height:134px;margin:2px auto 8px;display:block}
+.art svg{width:156px;height:134px;display:block;overflow:visible}
+.sh-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sh-name{font-family:Gaegu,sans-serif;font-size:34px;font-weight:700;line-height:1;color:var(--ink)}
+.sh-sub{font-size:12px;color:var(--pencil);margin-top:3px}
+.sh-head{font-size:14.5px;font-weight:600;line-height:1.7;margin:14px 0 8px;color:var(--ink)}
+.li{display:flex;gap:9px;font-size:13.5px;line-height:1.7;color:var(--ink2);padding:6px 0;
+  opacity:0;animation:rise .5s cubic-bezier(.2,.9,.3,1.15) forwards}
+.li svg{flex:none;width:15px;height:15px;margin-top:4px;color:var(--crayon)}
+.close{width:100%;margin-top:18px;padding:13px;background:none;border:2px solid var(--ink);
+  border-radius:18px 6px 20px 8px;color:var(--ink);font-family:Gaegu,sans-serif;font-size:20px;
+  font-weight:700;cursor:pointer}
+.close:active{transform:scale(.97)}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-delay:0s!important;
+    animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<svg id="lib" width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="crayon" x="-8%" y="-8%" width="116%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="crayonSoft" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="3" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <symbol id="paw" viewBox="0 0 24 24">
+    <g fill="currentColor" filter="url(#crayonSoft)">
+      <ellipse cx="12" cy="16" rx="6" ry="5"/><ellipse cx="5.5" cy="9.5" rx="2.6" ry="3.2"/>
+      <ellipse cx="10" cy="6.5" rx="2.6" ry="3.4"/><ellipse cx="15" cy="6.5" rx="2.6" ry="3.4"/>
+      <ellipse cx="19" cy="10" rx="2.6" ry="3.2"/>
+    </g>
+  </symbol>
+</svg>
+
+<div id="page">
+<div class="col">
+  <header>
+    <div class="dogwrap">
+      <svg class="dog" viewBox="0 0 200 200" width="152" height="152" aria-hidden="true">
+        <g filter="url(#crayon)">
+          <g id="tail"><path d="M144 158 C170 152 180 136 172 122" fill="none" stroke="#E39247"
+            stroke-width="11" stroke-linecap="round"/></g>
+          <path d="M62 46 C46 26 36 42 42 60 C46 72 58 78 66 73 Z" fill="#C97F35"/>
+          <path d="M138 46 C154 26 164 42 158 60 C154 72 142 78 134 73 Z" fill="#C97F35"/>
+          <path d="M100 112 C126 112 141 136 145 163 C147 177 140 182 127 182 L73 182 C60 182 53 177 55 163 C59 136 74 112 100 112 Z" fill="#E39247"/>
+          <path d="M100 30 C133 30 147 53 147 77 C147 103 126 119 100 119 C74 119 53 103 53 77 C53 53 67 30 100 30 Z" fill="#EDA85A"/>
+          <ellipse cx="80" cy="177" rx="11" ry="7.5" fill="#F5C283"/>
+          <ellipse cx="120" cy="177" rx="11" ry="7.5" fill="#F5C283"/>
+          <g stroke="#C97F35" stroke-width="3" stroke-linecap="round" opacity=".45" fill="none">
+            <path d="M70 128 C66 140 64 152 65 166"/><path d="M86 124 C82 138 81 152 82 166"/>
+            <path d="M118 124 C122 138 123 152 122 166"/><path d="M132 130 C136 142 137 153 136 166"/>
+            <path d="M100 26 C98 18 104 16 106 24"/><path d="M110 28 C110 20 116 20 116 27"/>
+            <path d="M90 28 C88 21 82 22 84 29"/>
+          </g>
+          <circle cx="85" cy="74" r="5" fill="#4A3226"/><circle cx="115" cy="74" r="5" fill="#4A3226"/>
+          <path d="M100 84 C107 84 109 89 104 92 C101 94 99 94 96 92 C91 89 93 84 100 84 Z" fill="#4A3226"/>
+          <path d="M100 93 C100 100 91 102 87 97" fill="none" stroke="#4A3226" stroke-width="3" stroke-linecap="round"/>
+          <path d="M100 93 C100 100 109 102 113 97" fill="none" stroke="#4A3226" stroke-width="3" stroke-linecap="round"/>
+          <path d="M96 99 C96 110 106 110 104 99 Z" fill="#E0776F"/>
+        </g>
+      </svg>
+    </div>
+    <div class="eyebrow rise" style="animation-delay:.3s" id="upd"></div>
+    <h1 class="rise" style="animation-delay:.38s" id="nm"></h1>
+    <div class="role rise" style="animation-delay:.5s" id="rl"></div>
+    <p class="tag rise" style="animation-delay:.62s" id="tg"></p>
+  </header>
+
+  <div class="dash"></div>
+
+  <h2 class="rise" style="animation-delay:.7s">제가 잘하는 것들</h2>
+  <p class="hint rise" style="animation-delay:.76s">
+    <svg width="15" height="15" viewBox="0 0 24 24"><use href="#paw"/></svg>누르면 왜 그런지 보여드려요</p>
+
+  <svg class="chart" viewBox="0 0 300 296" width="100%" height="296" aria-label="능력치 그래프">
+    <g id="grid"></g>
+    <g id="sweep" style="transform-origin:150px 142px">
+      <path d="M150 142 C152 110 149 70 150 36" fill="none" stroke="#C1573A" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <polygon id="poly" fill="rgba(227,146,71,.28)" stroke="#E39247" stroke-width="3.5"
+             stroke-linejoin="round" filter="url(#crayonSoft)"/>
+    <g id="marks"></g>
+  </svg>
+
+  <div class="rows" id="rows"></div>
+
+  <div class="dash"></div>
+  <h2 id="mt"></h2>
+  <div class="note" id="mb" style="margin-top:12px"></div>
+
+  <div class="dash"></div>
+  <h2>기본 정보</h2>
+  <div class="facts" id="facts" style="margin-top:8px"></div>
+
+  <div class="dash"></div>
+  <h2>경력사항</h2>
+  <div class="rows" style="margin-top:8px">
+    <button class="row" id="careerBtn" style="animation-delay:2.6s">
+      <span class="rname">경력</span><span class="rsub">지금까지의 경험을 한눈에 보기</span><span class="chev">›</span>
+    </button>
+  </div>
+
+  <div class="paws">
+    <svg width="24" height="24" viewBox="0 0 24 24" style="color:#E39247;animation-delay:0s"><use href="#paw"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" style="color:#F0B23F;animation-delay:.18s"><use href="#paw"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" style="color:#C1573A;animation-delay:.36s"><use href="#paw"/></svg>
+  </div>
+  <p class="thanks">읽어주셔서 고맙습니다!</p>
+</div>
+</div>
+
+<div id="scrim"></div>
+<div id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div>
+
+<script>
+/* ══════════════ 여기만 고치면 됩니다 ══════════════ */
+
+const PROFILE = {
+  name: "홍미혜",
+  role: "마인드몽 유치원 알바 지원서",
+  tagline: "꾸준히, 오랫동안 함께하고 싶습니다.",
+  updated: "마인드몽",
+  motiveTitle: "지원 동기",
+  motive: "강아지들과 함께 일할 수 있다면 누구보다 열정적이고 즐겁게 일할 수 있어서 지원했습니다. 동물을 좋아해서 아이들의 기분이나 상태도 금방 눈치채는 편입니다. 아이들에게는 따뜻한 선생님, 보호자님들께는 믿음직한 알바생이 되도록 최선을 다하겠습니다.",
+  facts: [
+    ["나이", "1993년 10월 15일 · 만 32세"],
+    ["집", "새터마을 힐스테이트 아파트 718동"],
+    ["연락처", "010-2006-7060"],
+    ["면허", "2종 보통 · 운전 경력 10년+ (자차 보유)"],
+    ["근무 요일", "평일 전일 · 주말 협의"],
+    ["반려 경험", "시로 · 장모치와와 · 15살 (현재 친언니와 거주) / 지금은 반려묘 두 마리와 함께 삽니다"]
+  ]
+};
+
+/* stars: 0 ~ 5, 0.5 단위 */
+const STATS = [
+  { name:"체력", art:"run", sub:"하루 종일 놀아주기", stars:4,
+    headline:"체력은 지금도 꾸준히 늘고 있고, 오래 버티는 근성은 이미 있습니다.",
+    points:["주 5회 운동으로 체력을 꾸준히 늘리고 있습니다",
+            "광고업계 조감독 출신으로 프로야근러였습니다"] },
+
+  { name:"활력", art:"jump", sub:"나이 · 배우는 속도", stars:4,
+    headline:"알려주시면 바로 몸에 붙이는 편입니다.",
+    points:["만 32세 — 요즘 MZ들과는 다른 꼰대 마인드를 장착했습니다",
+            "다른 사람들과 트러블 없는 밝은 성격이며 근무할 땐 꼼꼼하게 챙기는 편입니다",
+            "오래 일할 생각으로 지원했습니다"] },
+
+  { name:"기동력", art:"dash", sub:"집에서 유치원까지", stars:5,
+    headline:"가까운 거리라 빠르게 갈 수 있습니다.",
+    points:["집에서 마인드몽 유치원까지 604m, 차량으로 4분 거리입니다",
+            "이사 걱정 없이 평생 근무할 수 있습니다"] },
+
+  { name:"주도력", art:"broom", sub:"시키기 전에 하는 일", stars:4.5,
+    headline:"눈에 보이는 일은 말 나오기 전에 해둡니다.",
+    points:["주도적으로 생각하고 행동하는 편입니다",
+            "눈치가 빨라 알아서 척척 한다는 말을 자주 들었습니다",
+            "어떤 일이든 맡으면 책임감 있게 끝까지 해내려고 합니다"] },
+
+  { name:"대응력", art:"alert", sub:"급한 일이 생겼을 때", stars:4.5,
+    headline:"갑작스러운 호출에도 바로 대응할 수 있습니다.",
+    points:["운동 시간 외에는 자유로워 바로 대응할 수 있습니다",
+            "연락 확인은 평균 5분 이내에 가능합니다"] },
+
+  { name:"주행력", art:"drive", sub:"등하원 차량 운행", stars:5,
+    headline:"등하원 차량과 갑작스러운 병원 이동을 맡을 수 있습니다.",
+    points:["2종 보통 취득 후 10년 이상 운전 경력이 있습니다",
+            "자차를 보유하고 있습니다",
+            "아이들 태울 때는 급정거·급회전 없는 운전이 기본이라고 생각합니다"] }
+];
+
+/* 경력사항 : 한눈에 보기 팝업에 쓰일 목록. 최신순으로 적어주세요 */
+const CAREER = [
+  { period:"2020.05 – 2021.07", place:"바로아이디", desc:"시계 브랜드 매장 집기 제작 및 인테리어 감리" },
+  { period:"2019.08 – 2020.01", place:"그린컴퓨터아카데미 (실내건축설계 BIM 과정)", desc:"교육 이수 후 전산응용건축제도기능사 자격증 취득" },
+  { period:"2017.10 – 2018.10", place:"CJ파워캐스트", desc:"방송 파일 인제스트 및 편집 업무" },
+  { period:"2016.04 – 2017.05", place:"매시브크리에이티브", desc:"TVCF 조감독 업무" }
+];
+
+/* ══════════════ 아래는 건드릴 필요 없음 ══════════════ */
+
+const CX=150, CY=142, R=104, N=6, NS="http://www.w3.org/2000/svg";
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ══ 효과음: 통통 튀는 크레용 버블 사운드 (외부 파일 없이 합성) ══ */
+let actx=null;
+function ensureAudio(){
+  if(!actx){
+    try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }
+    catch(e){ return null; }
+  }
+  if(actx.state==="suspended") actx.resume();
+  return actx;
+}
+/* 짧은 사인 글리산도 한 번: f0→f1로 휘어 오르며 통 튕기는 소리 */
+function blip(f0,f1,dur,vol,type,delay){
+  const ctx=ensureAudio(); if(!ctx) return;
+  const t=ctx.currentTime+(delay||0);
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type=type||"sine";
+  o.frequency.setValueAtTime(Math.max(40,f0),t);
+  o.frequency.exponentialRampToValueAtTime(Math.max(40,f1),t+dur*0.5);
+  o.frequency.exponentialRampToValueAtTime(Math.max(40,f1*0.9),t+dur);
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(vol,t+0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(t); o.stop(t+dur+0.03);
+}
+/* 아주 짧은 화이트노이즈 톡 — 버블 표면이 톡 터지는 질감 */
+function pop(vol,delay){
+  const ctx=ensureAudio(); if(!ctx) return;
+  const t=ctx.currentTime+(delay||0), dur=.045;
+  const buf=ctx.createBuffer(1,ctx.sampleRate*dur,ctx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const src=ctx.createBufferSource(); src.buffer=buf;
+  const hp=ctx.createBiquadFilter(); hp.type="highpass"; hp.frequency.value=1800;
+  const g=ctx.createGain(); g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  src.connect(hp); hp.connect(g); g.connect(ctx.destination);
+  src.start(t);
+}
+/* 항목 열기: "띠-용" 두 음으로 통통 튀어 오르는 버블 (항목마다 음높이가 살짝 달라 실로폰처럼 다양하게) */
+function sfxOpen(seed){
+  const base=480+((seed||0)*33)%260;
+  pop(.09,0);
+  blip(base*0.8, base*1.55, .10, .15, "sine", 0);
+  blip(base*1.5, base*1.1,  .16, .12, "sine", .065);
+}
+/* 닫기: 낮고 짧은 통통 방울이 가라앉는 소리 */
+function sfxClose(){
+  pop(.06,0);
+  blip(430,230,.13,.12,"sine",0);
+}
+/* 별 등장 등 아주 가벼운 톡 (필요시 재사용) */
+function sfxTick(seed){
+  blip(700+((seed||0)*17)%180, 900,.05,.06,"triangle",0);
+}
+const JIT=[[2,-3],[-3,2],[3,3],[-2,-2],[2,2],[-3,-1]];
+const pt=(i,k)=>{const a=Math.PI*2*i/N-Math.PI/2, j=JIT[i];
+  return [CX+Math.cos(a)*R*k+j[0]*k, CY+Math.sin(a)*R*k+j[1]*k];};
+const hex=k=>Array.from({length:N},(_,i)=>pt(i,k).join(",")).join(" ");
+const el=(t,a)=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;};
+const T=(id,v)=>document.getElementById(id).textContent=v;
+
+T("nm",PROFILE.name); T("rl",PROFILE.role); T("tg",PROFILE.tagline);
+T("upd",PROFILE.updated); T("mb",PROFILE.motive); T("mt",PROFILE.motiveTitle);
+
+const facts=document.getElementById("facts");
+PROFILE.facts.forEach(([k,v])=>{const d=document.createElement("div");
+  d.innerHTML="<b></b><span></span>";
+  d.children[0].textContent=k; d.children[1].textContent=v; facts.appendChild(d);});
+
+/* 차트 배경: 링이 순서대로 그려짐 */
+const grid=document.getElementById("grid");
+[.33,.66,1].forEach((k,i)=>{
+  const p=el("polygon",{points:hex(k),fill:"none",stroke:"#EBDDC9","stroke-width":2,
+    "stroke-linejoin":"round",filter:"url(#crayonSoft)",pathLength:100,class:"draw"});
+  p.style.animationDelay=(.72+i*.13)+"s";
+  grid.appendChild(p);
+});
+for(let i=0;i<N;i++){const [x,y]=pt(i,1);
+  const l=el("line",{x1:CX,y1:CY,x2:x,y2:y,stroke:"#EBDDC9","stroke-width":1.5,
+    filter:"url(#crayonSoft)",pathLength:100,class:"draw"});
+  l.style.animationDelay=(1.02+i*.05)+"s"; l.style.animationDuration=".5s";
+  grid.appendChild(l);
+}
+const sweep=document.getElementById("sweep");
+sweep.style.animation="spin 1.15s cubic-bezier(.3,0,.2,1) 1.15s both";
+
+/* 꼭짓점 + 라벨 */
+const marks=document.getElementById("marks"), dots=[];
+STATS.forEach((s,i)=>{
+  const [lx,ly]=pt(i,1.34);
+  const dot=el("circle",{cx:CX,cy:CY,r:5,fill:"#C1573A",class:"dot pop",filter:"url(#crayonSoft)"});
+  dot.style.animationDelay=(1.5+i*.07)+"s";
+  marks.appendChild(dot); dots.push(dot);
+  const g=el("g",{class:"lbl"});
+  g.style.animation="rise .6s cubic-bezier(.2,.9,.3,1.15) "+(1.62+i*.07)+"s forwards";
+  g.appendChild(el("circle",{cx:lx,cy:ly,r:28,fill:"transparent"}));
+  const t=el("text",{x:lx,y:ly+6,"text-anchor":"middle"}); t.textContent=s.name;
+  g.appendChild(t);
+  g.addEventListener("click",()=>{sfxOpen(i); openSheet(i);});
+  marks.appendChild(g);
+});
+
+/* 별 5개 · 반칸 지원 · 하나씩 통통 튀며 등장 */
+const ART={"drive": ["<path d=\"M80.2 38.6Q78.3 45.0 77.1 51.0Q70.7 54.0 64.7 57.8Q58.0 56.4 51.4 55.7Q46.2 52.1 42.2 47.6Q42.1 41.4 41.5 34.7Q46.1 30.1 49.5 25.7Q55.6 23.5 62.0 21.5Q68.0 24.7 74.2 27.5Q76.4 33.0 80.2 38.6Z\"/><path d=\"M38.1 31.5Q36.9 37.6 35.5 44.0Q33.1 50.3 32.0 56.0Q38.4 48.0 46.3 39.8Q41.7 35.0 38.1 31.5Z\"/><path d=\"M72.1 36.5Q75.9 40.6 80.5 46.0Q83.8 51.3 88.0 56.0Q86.1 45.2 83.6 34.8Q78.0 35.6 72.1 36.5Z\"/><circle cx=\"52.5\" cy=\"38.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"65.5\" cy=\"38.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M56.2 43.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M56.4 46.2 q2.6 3 5.2 .4\"/><path d=\"M61.6 46.2 q-2.6 3 -5.2 .4\"/><path d=\"M58.2 47.0 q1.8 5.0 3.6 0\"/><path d=\"M34 88 a26 24 0 0 1 52 0\" stroke-width=\"2.7\"/><path d=\"M60 88 l0 -8\"/><path d=\"M50.0 60.0Q47.0 65.5 44.0 70.0Q41.8 75.4 40.0 80.0\"/><circle cx=\"40.0\" cy=\"80.0\" r=\"2.9\" fill=\"none\"/><path d=\"M70.0 60.0Q73.2 65.2 76.0 70.0Q77.4 75.0 80.0 81.0\"/><circle cx=\"80.0\" cy=\"81.0\" r=\"2.9\" fill=\"none\"/><path d=\"M3.1 44.0 q6.0 -0.4 14.7 0\" opacity=\".5\"/><path d=\"M4.8 52.0 q6.0 0.9 9.7 0\" opacity=\".5\"/><path d=\"M4.4 60.0 q6.0 0.7 13.9 0\" opacity=\".5\"/><path d=\"M100.6 44.0 q6.0 -0.9 10.1 0\" opacity=\".5\"/><path d=\"M100.6 52.0 q6.0 0.6 14.4 0\" opacity=\".5\"/><path d=\"M99.9 60.0 q6.0 1.0 9.8 0\" opacity=\".5\"/>", "<path d=\"M79.2 39.0Q77.7 43.8 75.1 49.9Q69.1 52.4 62.7 55.3Q55.8 53.6 49.7 53.0Q45.1 48.0 41.3 43.4Q40.3 37.6 40.5 30.4Q45.4 26.2 50.6 21.9Q57.9 21.2 64.6 20.4Q70.0 24.5 75.2 27.6Q77.5 33.9 79.2 39.0Z\"/><path d=\"M38.1 29.5Q37.2 36.0 35.5 42.0Q33.8 47.3 32.0 54.0Q39.4 45.9 46.3 37.8Q41.8 33.1 38.1 29.5Z\"/><path d=\"M72.1 34.5Q76.5 39.3 80.5 44.0Q83.6 49.0 88.0 54.0Q85.4 43.2 83.6 32.8Q78.3 33.0 72.1 34.5Z\"/><circle cx=\"54.2\" cy=\"36.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"67.2\" cy=\"36.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M57.9 41.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M58.1 44.2 q2.6 3 5.2 .4\"/><path d=\"M63.3 44.2 q-2.6 3 -5.2 .4\"/><path d=\"M58.2 45.0 q1.8 7.0 3.6 0\"/><path d=\"M34 88 a26 24 0 0 1 52 0\" stroke-width=\"2.7\"/><path d=\"M60 88 l0 -8\"/><path d=\"M50.0 58.0Q47.3 63.8 44.0 70.0Q41.6 74.0 40.0 79.0\"/><circle cx=\"40.0\" cy=\"79.0\" r=\"2.9\" fill=\"none\"/><path d=\"M70.0 58.0Q73.5 63.8 76.0 70.0Q78.2 75.3 80.0 80.0\"/><circle cx=\"80.0\" cy=\"80.0\" r=\"2.9\" fill=\"none\"/><path d=\"M7.5 44.0 q6.0 -1.1 10.6 0\" opacity=\".5\"/><path d=\"M7.2 52.0 q6.0 -0.3 10.4 0\" opacity=\".5\"/><path d=\"M7.6 60.0 q6.0 0.1 13.8 0\" opacity=\".5\"/><path d=\"M102.9 44.0 q6.0 0.9 10.7 0\" opacity=\".5\"/><path d=\"M102.8 52.0 q6.0 -0.1 14.0 0\" opacity=\".5\"/><path d=\"M103.4 60.0 q6.0 -0.3 10.8 0\" opacity=\".5\"/>", "<path d=\"M79.9 38.7Q77.8 44.6 75.7 50.8Q70.1 54.4 63.8 57.8Q56.9 56.0 50.1 53.9Q45.7 50.3 41.3 45.5Q40.3 39.5 40.4 33.4Q44.2 28.6 49.4 24.2Q55.7 22.2 63.3 21.1Q69.4 24.6 74.7 27.2Q77.1 33.3 79.9 38.7Z\"/><path d=\"M38.1 30.5Q36.6 36.7 35.5 43.0Q34.2 49.6 32.0 55.0Q39.5 46.8 46.3 38.8Q41.9 34.2 38.1 30.5Z\"/><path d=\"M72.1 35.5Q77.0 39.8 80.5 45.0Q84.3 50.2 88.0 55.0Q86.2 44.3 83.6 33.8Q77.2 34.1 72.1 35.5Z\"/><circle cx=\"53.3\" cy=\"37.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"66.3\" cy=\"37.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M57.0 42.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M57.2 45.2 q2.6 3 5.2 .4\"/><path d=\"M62.4 45.2 q-2.6 3 -5.2 .4\"/><path d=\"M58.2 46.0 q1.8 6.0 3.6 0\"/><path d=\"M34 88 a26 24 0 0 1 52 0\" stroke-width=\"2.7\"/><path d=\"M60 88 l0 -8\"/><path d=\"M50.0 59.0Q47.1 64.4 44.0 70.0Q41.8 75.3 40.0 81.0\"/><circle cx=\"40.0\" cy=\"81.0\" r=\"2.9\" fill=\"none\"/><path d=\"M70.0 59.0Q73.3 64.8 76.0 70.0Q78.0 74.0 80.0 79.0\"/><circle cx=\"80.0\" cy=\"79.0\" r=\"2.9\" fill=\"none\"/><path d=\"M9.9 44.0 q6.0 0.1 9.4 0\" opacity=\".5\"/><path d=\"M9.3 52.0 q6.0 -0.6 10.2 0\" opacity=\".5\"/><path d=\"M10.2 60.0 q6.0 0.4 11.5 0\" opacity=\".5\"/><path d=\"M105.5 44.0 q6.0 0.5 14.1 0\" opacity=\".5\"/><path d=\"M106.4 52.0 q6.0 -0.7 12.4 0\" opacity=\".5\"/><path d=\"M105.4 60.0 q6.0 0.3 13.1 0\" opacity=\".5\"/>"], "run": ["<path d=\"M77.6 54.4Q74.8 59.8 72.0 64.5Q65.6 68.0 58.6 72.9Q49.7 72.7 41.6 73.2Q36.2 70.2 30.9 66.2Q29.5 60.4 28.9 56.1Q33.8 51.7 37.6 46.3Q46.3 43.5 54.2 42.1Q61.4 43.7 69.3 46.3Q74.1 49.8 77.6 54.4Z\"/><path d=\"M100.2 42.5Q99.3 46.4 98.8 51.4Q94.5 54.0 90.2 57.1Q84.7 57.4 79.6 56.4Q76.4 52.7 72.9 50.4Q72.4 46.4 70.6 41.0Q73.9 37.9 77.5 33.4Q81.7 32.4 87.1 30.2Q91.3 32.5 96.5 33.8Q98.6 38.8 100.2 42.5Z\"/><path d=\"M82.7 28.8Q78.1 28.0 74.1 26.8Q70.7 24.9 66.0 24.0Q70.2 30.0 75.2 35.9Q78.4 31.7 82.7 28.8Z\"/><circle cx=\"82.9\" cy=\"43.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"95.9\" cy=\"43.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M86.6 48.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M86.8 51.2 q2.6 3 5.2 .4\"/><path d=\"M92.0 51.2 q-2.6 3 -5.2 .4\"/><path d=\"M87.2 52.0 q1.8 7.0 3.6 0\"/><path d=\"M72.0 68.0Q77.4 70.8 84.0 74.0Q87.2 79.0 90.0 84.0\"/><circle cx=\"90.0\" cy=\"84.0\" r=\"2.9\" fill=\"none\"/><path d=\"M72.0 68.0Q68.1 71.4 64.0 76.0Q60.5 81.1 58.0 86.0\"/><circle cx=\"58.0\" cy=\"86.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 68.0Q28.6 70.4 24.0 74.0Q20.5 79.2 18.0 84.0\"/><circle cx=\"18.0\" cy=\"84.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 68.0Q39.6 73.0 44.0 78.0Q46.4 82.6 50.0 88.0\"/><circle cx=\"50.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M28 50 q-12 -6 -18 -12\"/><path d=\"M2.4 40.0 q7.0 0.8 11.9 0\" opacity=\".5\"/><path d=\"M1.9 48.0 q7.0 -1.2 14.3 0\" opacity=\".5\"/><path d=\"M2.5 56.0 q7.0 -0.0 16.0 0\" opacity=\".5\"/><path d=\"M1.5 64.0 q7.0 0.4 13.8 0\" opacity=\".5\"/>", "<path d=\"M75.5 51.7Q73.6 57.3 71.4 61.5Q65.4 65.5 58.1 68.8Q50.6 69.7 42.3 69.9Q36.2 67.4 30.2 63.5Q29.0 58.9 29.1 53.0Q33.9 48.0 38.5 43.1Q45.9 41.3 54.1 40.3Q62.0 40.9 70.5 42.7Q73.1 47.3 75.5 51.7Z\"/><path d=\"M100.3 39.5Q99.0 43.8 98.9 49.2Q94.5 51.4 90.1 54.3Q85.1 54.7 80.0 53.9Q75.4 50.3 71.7 47.2Q70.6 42.9 70.8 37.6Q73.7 34.3 77.3 30.0Q82.8 27.8 87.1 27.0Q91.8 28.8 96.9 30.8Q98.8 35.7 100.3 39.5Z\"/><path d=\"M84.5 27.9Q81.4 25.9 78.8 22.7Q77.1 19.2 74.0 17.0Q74.9 23.7 74.6 30.1Q79.8 28.6 84.5 27.9Z\"/><circle cx=\"82.9\" cy=\"40.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"95.9\" cy=\"40.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M86.6 45.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M86.8 48.2 q2.6 3 5.2 .4\"/><path d=\"M92.0 48.2 q-2.6 3 -5.2 .4\"/><path d=\"M87.2 49.0 q1.8 5.0 3.6 0\"/><path d=\"M72.0 65.0Q76.4 71.1 80.0 78.0Q82.8 82.4 86.0 88.0\"/><circle cx=\"86.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M72.0 65.0Q67.0 68.3 62.0 72.0Q59.5 75.7 56.0 80.0\"/><circle cx=\"56.0\" cy=\"80.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 65.0Q32.0 72.9 30.0 80.0Q28.2 84.8 26.0 90.0\"/><circle cx=\"26.0\" cy=\"90.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 65.0Q39.9 68.9 46.0 72.0Q50.1 76.2 54.0 80.0\"/><circle cx=\"54.0\" cy=\"80.0\" r=\"2.9\" fill=\"none\"/><path d=\"M28 50 q-12 2 -18 -2\"/><path d=\"M6.8 40.0 q7.0 0.7 11.3 0\" opacity=\".5\"/><path d=\"M6.3 48.0 q7.0 0.7 14.9 0\" opacity=\".5\"/><path d=\"M7.0 56.0 q7.0 0.2 14.7 0\" opacity=\".5\"/><path d=\"M6.7 64.0 q7.0 1.0 13.6 0\" opacity=\".5\"/>"], "jump": ["<path d=\"M80.3 66.6Q77.8 71.2 74.1 74.8Q67.0 75.5 59.5 76.8Q51.3 74.9 41.9 73.7Q36.5 69.4 31.5 66.1Q31.4 62.0 31.1 57.1Q38.0 54.6 44.2 51.2Q53.3 52.0 61.8 52.4Q68.7 55.7 76.4 57.7Q79.1 62.5 80.3 66.6Z\"/><path d=\"M94.9 52.0Q93.5 56.3 91.3 60.6Q86.4 63.5 82.5 65.1Q77.2 65.1 73.3 63.8Q70.4 59.7 67.1 56.5Q66.1 52.4 66.2 47.6Q69.0 44.0 73.2 40.7Q77.3 39.1 82.5 38.6Q86.6 41.1 91.4 43.2Q92.4 48.1 94.9 52.0Z\"/><path d=\"M74.8 39.8Q71.1 38.7 67.1 38.3Q63.9 36.6 60.0 36.0Q63.4 41.5 67.4 47.0Q71.6 43.6 74.8 39.8Z\"/><path d=\"M90.6 48.3Q91.7 46.1 94.0 42.7Q95.5 39.9 98.0 38.0Q92.6 37.8 86.9 38.8Q88.6 43.1 90.6 48.3Z\"/><circle cx=\"74.3\" cy=\"50.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"87.3\" cy=\"50.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M78.0 55.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M78.2 58.2 q2.6 3 5.2 .4\"/><path d=\"M83.4 58.2 q-2.6 3 -5.2 .4\"/><path d=\"M78.2 59.0 q1.8 4.0 3.6 0\"/><path d=\"M72.0 74.0Q74.9 78.8 78.0 84.0Q79.9 87.8 82.0 92.0\"/><circle cx=\"82.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M72.0 74.0Q67.0 80.2 62.0 86.0Q59.9 90.0 58.0 94.0\"/><circle cx=\"58.0\" cy=\"94.0\" r=\"2.9\" fill=\"none\"/><path d=\"M40.0 74.0Q35.8 78.9 32.0 84.0Q29.5 87.9 28.0 92.0\"/><circle cx=\"28.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M40.0 74.0Q45.0 79.6 50.0 86.0Q51.8 90.1 54.0 94.0\"/><circle cx=\"54.0\" cy=\"94.0\" r=\"2.9\" fill=\"none\"/><path d=\"M32 58.0 q-10 6.0 -16 8.0\"/>", "<path d=\"M75.9 38.3Q74.7 44.0 74.6 50.5Q69.2 54.3 63.8 58.7Q56.6 59.9 50.3 61.3Q44.1 57.7 37.4 55.2Q36.9 48.8 36.2 43.3Q38.2 38.9 41.6 33.3Q48.8 29.8 55.2 27.9Q60.9 28.1 67.5 29.3Q71.8 33.2 75.9 38.3Z\"/><path d=\"M90.0 26.0Q89.1 30.2 87.4 34.8Q82.3 35.9 78.4 38.1Q73.7 37.5 69.3 37.2Q65.4 33.8 62.1 30.7Q62.8 26.1 62.1 21.4Q66.2 17.4 69.1 14.1Q73.6 13.7 78.5 13.9Q83.2 15.6 87.0 17.6Q87.8 22.5 90.0 26.0Z\"/><path d=\"M72.0 15.0Q67.7 11.3 63.6 8.8Q59.7 4.9 56.0 2.0Q58.7 10.1 62.2 18.6Q66.8 16.8 72.0 15.0Z\"/><path d=\"M88.4 20.4Q90.2 14.7 90.7 10.0Q91.8 4.5 94.0 0.0Q87.8 5.8 81.1 12.9Q84.2 16.5 88.4 20.4Z\"/><path d=\"M67.7 24.0 q2.6 1.8 5.2 0\"/><path d=\"M80.7 24.0 q2.6 1.8 5.2 0\"/><path d=\"M74.0 29.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M74.2 32.2 q2.6 3 5.2 .4\"/><path d=\"M79.4 32.2 q-2.6 3 -5.2 .4\"/><path d=\"M74.2 33.0 q1.8 8.0 3.6 0\"/><path d=\"M72.0 54.0Q78.2 53.0 84.0 52.0Q88.6 50.3 92.0 48.0\"/><circle cx=\"92.0\" cy=\"48.0\" r=\"2.9\" fill=\"none\"/><path d=\"M72.0 54.0Q76.0 58.1 80.0 62.0Q82.9 65.0 86.0 68.0\"/><circle cx=\"86.0\" cy=\"68.0\" r=\"2.9\" fill=\"none\"/><path d=\"M40.0 54.0Q33.4 56.6 28.0 60.0Q24.0 62.5 20.0 66.0\"/><circle cx=\"20.0\" cy=\"66.0\" r=\"2.9\" fill=\"none\"/><path d=\"M40.0 54.0Q36.7 61.5 34.0 68.0Q31.7 71.6 30.0 76.0\"/><circle cx=\"30.0\" cy=\"76.0\" r=\"2.9\" fill=\"none\"/><path d=\"M32 38.0 q-10 -10.0 -16 -14.0\"/><path d=\"M16.0 15.6 l0 8.8 M11.6 20.0 l8.8 0\" opacity=\"0.70\"/><path d=\"M102.0 26.6 l0 6.8 M98.6 30.0 l6.8 0\" opacity=\"0.70\"/><path d=\"M28.0 66.4 l0 7.2 M24.4 70.0 l7.2 0\" opacity=\"0.50\"/>", "<path d=\"M78.1 34.7Q76.5 38.9 75.5 44.1Q68.7 48.6 61.7 51.7Q54.3 51.2 45.9 50.8Q39.9 48.2 34.1 44.2Q33.6 39.7 33.9 34.5Q38.1 29.3 43.4 24.4Q51.7 23.7 58.8 22.5Q65.6 24.5 72.7 25.6Q75.9 30.1 78.1 34.7Z\"/><path d=\"M87.4 17.0Q85.3 20.7 84.1 25.6Q80.8 28.0 76.3 30.4Q71.2 29.0 66.9 28.9Q64.0 24.7 60.2 21.2Q60.0 17.2 60.5 12.5Q63.3 8.9 67.4 6.0Q72.6 5.2 76.4 4.2Q79.9 5.9 84.3 8.7Q86.1 13.4 87.4 17.0Z\"/><path d=\"M69.5 5.5Q65.5 3.4 61.4 1.6Q57.8 -1.4 54.0 -3.0Q57.4 3.6 60.7 10.7Q65.4 8.7 69.5 5.5Z\"/><path d=\"M86.1 11.9Q88.0 7.7 88.6 3.2Q91.0 -0.9 92.0 -5.0Q86.1 -0.3 79.4 4.0Q83.0 8.4 86.1 11.9Z\"/><circle cx=\"68.3\" cy=\"15.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"81.3\" cy=\"15.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M72.0 20.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M72.2 23.2 q2.6 3 5.2 .4\"/><path d=\"M77.4 23.2 q-2.6 3 -5.2 .4\"/><path d=\"M72.2 24.0 q1.8 6.0 3.6 0\"/><path d=\"M72.0 47.0Q79.0 49.0 86.0 51.0Q90.3 52.9 94.0 55.0\"/><circle cx=\"94.0\" cy=\"55.0\" r=\"2.9\" fill=\"none\"/><path d=\"M72.0 47.0Q72.8 53.4 74.0 59.0Q75.3 63.5 76.0 69.0\"/><circle cx=\"76.0\" cy=\"69.0\" r=\"2.9\" fill=\"none\"/><path d=\"M40.0 47.0Q33.0 47.8 26.0 49.0Q21.8 50.3 18.0 51.0\"/><circle cx=\"18.0\" cy=\"51.0\" r=\"2.9\" fill=\"none\"/><path d=\"M40.0 47.0Q40.4 53.8 40.0 61.0Q38.8 66.6 38.0 71.0\"/><circle cx=\"38.0\" cy=\"71.0\" r=\"2.9\" fill=\"none\"/><path d=\"M32 31.0 q-10 -6.0 -16 -10.0\"/><path d=\"M16.0 8.6 l0 8.8 M11.6 13.0 l8.8 0\" opacity=\"0.70\"/><path d=\"M102.0 19.6 l0 6.8 M98.6 23.0 l6.8 0\" opacity=\"0.70\"/><path d=\"M28.0 59.4 l0 7.2 M24.4 63.0 l7.2 0\" opacity=\"0.50\"/>"], "dash": ["<path d=\"M78.5 60.6Q74.9 64.0 72.4 67.6Q64.6 69.3 57.5 72.3Q47.8 72.5 38.7 71.7Q31.7 69.1 24.6 67.3Q24.4 62.8 25.6 59.6Q32.6 56.7 38.1 53.1Q47.4 52.3 56.5 51.4Q64.8 52.0 72.1 53.9Q75.7 57.7 78.5 60.6Z\"/><path d=\"M101.5 50.1Q100.5 55.2 99.6 59.0Q96.2 62.0 92.0 63.9Q87.8 64.1 82.1 63.8Q79.2 61.0 76.0 58.0Q74.9 54.5 74.4 49.6Q77.1 46.1 79.9 42.0Q83.9 40.3 88.7 39.8Q93.5 41.9 98.2 42.6Q99.7 46.0 101.5 50.1Z\"/><path d=\"M84.9 38.0Q78.4 35.8 72.2 32.4Q65.7 29.1 60.0 26.0Q68.2 34.5 75.8 43.6Q80.3 40.4 84.9 38.0Z\"/><circle cx=\"85.3\" cy=\"51.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M82.7 46.0 q2.6 -2 5.2 -.4\"/><circle cx=\"98.3\" cy=\"51.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M95.7 46.0 q2.6 -2 5.2 -.4\"/><path d=\"M89.0 56.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M74.0 70.0Q81.4 69.5 88.0 70.0Q91.6 70.9 96.0 72.0\"/><circle cx=\"96.0\" cy=\"72.0\" r=\"2.9\" fill=\"none\"/><path d=\"M74.0 70.0Q71.3 75.4 68.0 80.0Q66.5 83.9 64.0 88.0\"/><circle cx=\"64.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M32.0 70.0Q25.5 70.0 20.0 70.0Q16.3 69.0 12.0 68.0\"/><circle cx=\"12.0\" cy=\"68.0\" r=\"2.9\" fill=\"none\"/><path d=\"M32.0 70.0Q36.2 75.0 40.0 80.0Q43.0 84.5 46.0 88.0\"/><circle cx=\"46.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M26 56 q-12 2.0 -20 4.0\"/><path d=\"M1.8 34.0 q8.0 0.1 15.9 0\" opacity=\".5\"/><path d=\"M3.0 42.0 q8.0 1.1 14.9 0\" opacity=\".5\"/><path d=\"M1.9 50.0 q8.0 -0.3 12.9 0\" opacity=\".5\"/><path d=\"M1.8 58.0 q8.0 0.2 14.9 0\" opacity=\".5\"/><path d=\"M2.0 66.0 q8.0 -0.9 19.2 0\" opacity=\".5\"/><path d=\"M18 90 q28 5 56 2\" opacity=\".35\"/>", "<path d=\"M81.8 60.6Q79.6 63.6 77.3 68.0Q68.4 71.1 60.4 73.0Q51.4 72.2 41.6 72.7Q35.5 70.4 29.6 67.2Q29.9 63.8 28.9 59.8Q34.1 55.8 40.7 52.9Q50.6 52.6 59.1 51.2Q67.1 52.9 75.1 54.0Q79.0 57.1 81.8 60.6Z\"/><path d=\"M104.4 50.1Q103.5 55.2 102.2 59.4Q98.8 61.7 95.2 64.9Q90.1 64.5 85.6 64.6Q83.0 60.9 79.2 58.1Q78.9 53.5 77.3 49.4Q79.8 45.0 82.8 41.2Q87.3 40.9 91.8 39.6Q95.7 41.0 99.8 41.9Q102.8 45.5 104.4 50.1Z\"/><path d=\"M89.1 39.1Q84.4 34.4 79.6 30.9Q75.3 26.1 71.0 22.0Q75.6 32.3 78.8 41.9Q83.5 39.9 89.1 39.1Z\"/><circle cx=\"88.3\" cy=\"51.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M85.7 46.0 q2.6 -2 5.2 -.4\"/><circle cx=\"101.3\" cy=\"51.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M98.7 46.0 q2.6 -2 5.2 -.4\"/><path d=\"M92.0 56.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M77.0 70.0Q80.4 74.3 84.0 78.0Q86.6 82.3 90.0 86.0\"/><circle cx=\"90.0\" cy=\"86.0\" r=\"2.9\" fill=\"none\"/><path d=\"M77.0 70.0Q75.4 75.0 74.0 80.0Q74.0 84.7 74.0 90.0\"/><circle cx=\"74.0\" cy=\"90.0\" r=\"2.9\" fill=\"none\"/><path d=\"M35.0 70.0Q29.0 75.0 24.0 80.0Q21.5 83.6 20.0 88.0\"/><circle cx=\"20.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M35.0 70.0Q36.1 67.7 36.0 66.0Q38.4 61.6 40.0 58.0\"/><circle cx=\"40.0\" cy=\"58.0\" r=\"2.9\" fill=\"none\"/><path d=\"M26 56 q-12 -4.0 -20 -8.0\"/><path d=\"M8.5 34.0 q8.0 0.9 12.7 0\" opacity=\".5\"/><path d=\"M7.0 42.0 q8.0 -0.8 12.2 0\" opacity=\".5\"/><path d=\"M7.8 50.0 q8.0 -1.2 17.0 0\" opacity=\".5\"/><path d=\"M7.3 58.0 q8.0 -1.3 19.3 0\" opacity=\".5\"/><path d=\"M7.9 66.0 q8.0 0.4 17.7 0\" opacity=\".5\"/><path d=\"M18 90 q28 5 56 2\" opacity=\".35\"/>"], "broom": ["<path d=\"M68.0 61.4Q64.7 66.2 62.9 71.6Q56.2 74.5 50.4 76.6Q43.8 75.1 36.4 72.3Q32.1 68.7 26.7 64.2Q28.6 59.1 28.9 53.2Q33.4 49.5 38.2 45.0Q46.1 44.0 53.0 43.6Q58.9 47.0 65.6 51.3Q66.2 56.7 68.0 61.4Z\"/><path d=\"M93.9 42.9Q91.9 48.5 90.2 52.6Q85.9 54.4 81.5 57.3Q76.6 56.1 71.8 56.1Q68.1 52.7 63.9 49.7Q64.1 45.8 62.8 40.6Q66.1 35.7 69.3 32.0Q74.5 31.3 79.7 29.8Q83.8 31.9 89.1 34.7Q91.3 39.3 93.9 42.9Z\"/><path d=\"M75.4 29.3Q70.9 27.4 67.4 26.0Q64.2 23.7 60.0 22.0Q63.7 27.9 66.8 35.0Q71.1 31.6 75.4 29.3Z\"/><path d=\"M91.5 37.5Q93.0 33.5 94.4 30.4Q95.7 27.8 98.0 24.0Q92.3 26.5 86.0 29.0Q88.1 33.2 91.5 37.5Z\"/><circle cx=\"73.5\" cy=\"43.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"86.5\" cy=\"43.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M77.2 48.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M78 52 L106 65\" stroke-width=\"2.6\"/><path d=\"M106 65 l9 -7 M106 65 l10 1 M106 65 l8 8\"/><path d=\"M62.0 72.0Q64.4 77.4 68.0 82.0Q70.0 85.6 72.0 90.0\"/><circle cx=\"72.0\" cy=\"90.0\" r=\"2.9\" fill=\"none\"/><path d=\"M62.0 72.0Q58.9 76.4 56.0 80.0Q54.5 84.0 52.0 88.0\"/><circle cx=\"52.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 72.0Q31.2 76.9 28.0 82.0Q26.3 85.9 24.0 90.0\"/><circle cx=\"24.0\" cy=\"90.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 72.0Q37.5 76.2 40.0 80.0Q41.6 83.9 44.0 88.0\"/><circle cx=\"44.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M28 52 q-9 -8.0 -14 -4.0\"/>", "<path d=\"M68.9 57.3Q66.2 63.2 63.8 67.7Q58.5 71.5 52.2 74.5Q46.0 72.3 38.4 71.3Q32.8 67.6 27.4 64.5Q27.9 58.3 28.9 52.9Q32.9 49.1 37.6 44.3Q43.9 42.2 51.2 41.5Q58.0 44.3 63.6 47.2Q65.8 51.9 68.9 57.3Z\"/><path d=\"M93.8 42.6Q91.3 46.9 89.4 51.0Q84.3 53.7 80.2 56.1Q75.5 55.4 70.5 53.5Q66.0 49.3 62.9 46.0Q63.3 41.2 63.4 36.5Q67.7 32.7 71.2 30.1Q75.6 29.6 81.2 28.1Q85.5 30.6 89.7 32.9Q91.1 37.2 93.8 42.6Z\"/><path d=\"M75.4 27.3Q71.6 25.4 67.4 24.0Q64.1 22.0 60.0 20.0Q63.7 27.0 66.8 33.0Q70.8 29.6 75.4 27.3Z\"/><path d=\"M91.5 35.5Q92.9 31.3 94.4 28.4Q96.1 25.9 98.0 22.0Q91.7 25.1 86.0 27.0Q88.8 31.8 91.5 35.5Z\"/><circle cx=\"73.5\" cy=\"41.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><circle cx=\"86.5\" cy=\"41.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M77.2 46.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M78 50 L106 60\" stroke-width=\"2.6\"/><path d=\"M106 60 l9 -7 M106 60 l10 1 M106 60 l8 8\"/><path d=\"M62.0 70.0Q64.4 74.7 66.0 80.0Q68.0 83.8 70.0 88.0\"/><circle cx=\"70.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M62.0 70.0Q59.8 76.4 58.0 84.0Q56.8 88.3 56.0 92.0\"/><circle cx=\"56.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 70.0Q32.6 74.5 30.0 80.0Q29.5 83.6 28.0 88.0\"/><circle cx=\"28.0\" cy=\"88.0\" r=\"2.9\" fill=\"none\"/><path d=\"M34.0 70.0Q38.3 76.9 42.0 84.0Q43.7 87.6 46.0 92.0\"/><circle cx=\"46.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M28 52 q-9 -2.0 -14 -10.0\"/>"], "alert": ["<path d=\"M79.6 74.0Q77.6 80.0 74.9 85.8Q68.5 88.6 63.1 91.7Q57.2 90.8 50.9 90.4Q46.7 84.5 41.8 79.8Q42.3 74.0 41.6 67.9Q45.6 63.3 51.0 58.6Q57.9 56.7 63.3 55.2Q67.9 58.8 73.7 62.9Q76.0 67.8 79.6 74.0Z\"/><path d=\"M78.6 40.7Q75.8 46.5 74.2 52.6Q69.3 55.9 64.3 58.1Q57.6 58.5 51.9 58.2Q47.2 54.1 43.3 49.1Q43.5 42.7 42.7 37.7Q46.9 33.2 49.6 28.1Q55.8 26.6 62.0 24.9Q67.4 27.5 73.0 30.4Q75.2 35.7 78.6 40.7Z\"/><path d=\"M50.2 29.3Q46.1 25.0 41.2 20.9Q37.0 17.0 33.0 12.0Q36.2 21.3 39.9 31.7Q44.8 30.7 50.2 29.3Z\"/><path d=\"M78.7 33.7Q78.9 28.4 79.4 22.7Q80.7 17.6 81.0 12.0Q75.9 20.0 70.3 27.3Q75.1 29.8 78.7 33.7Z\"/><circle cx=\"50.9\" cy=\"40.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M48.3 35.0 q2.6 -2 5.2 -.4\"/><circle cx=\"63.9\" cy=\"40.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M61.3 35.0 q2.6 -2 5.2 -.4\"/><path d=\"M54.6 45.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M51.0 84.0Q49.4 87.4 49.0 90.0Q48.5 90.5 47.0 92.0\"/><circle cx=\"47.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M69.0 84.0Q69.6 87.0 71.0 90.0Q71.5 91.2 73.0 92.0\"/><circle cx=\"73.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M79 80 q11 -6.0 13 -2.0\"/><path d=\"M28 46.0 q-7.0 -7 0 -13\" opacity=\"0.22\"/><path d=\"M92 46.0 q7.0 -7 0 -13\" opacity=\"0.22\"/>", "<path d=\"M79.1 73.0Q76.6 79.4 74.6 84.6Q69.2 87.7 63.5 90.2Q57.8 88.6 50.7 88.3Q46.8 83.4 42.9 79.1Q41.6 73.6 41.3 66.9Q46.0 62.7 50.0 57.6Q57.3 57.1 63.2 55.5Q69.0 58.2 73.7 61.6Q76.2 66.6 79.1 73.0Z\"/><path d=\"M77.1 41.0Q75.1 46.3 74.1 52.6Q68.3 54.7 63.0 57.6Q57.6 56.7 51.5 56.6Q47.8 52.3 42.6 46.9Q43.7 41.9 43.6 35.4Q48.1 31.0 51.1 26.8Q57.0 25.4 62.9 23.3Q68.8 27.3 73.5 30.6Q75.4 35.7 77.1 41.0Z\"/><path d=\"M50.7 29.4Q47.7 24.1 43.9 18.4Q41.0 13.3 38.0 7.0Q38.4 17.9 40.1 29.0Q44.8 29.2 50.7 29.4Z\"/><path d=\"M78.7 32.6Q78.7 26.1 79.9 19.6Q80.3 13.2 82.0 7.0Q75.9 16.3 70.5 25.8Q74.6 29.9 78.7 32.6Z\"/><circle cx=\"53.5\" cy=\"39.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M50.9 34.0 q2.6 -2 5.2 -.4\"/><circle cx=\"66.5\" cy=\"39.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M63.9 34.0 q2.6 -2 5.2 -.4\"/><path d=\"M57.2 44.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M51.0 84.0Q49.8 86.8 49.0 90.0Q48.1 91.4 47.0 92.0\"/><circle cx=\"47.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M69.0 84.0Q69.8 87.5 71.0 90.0Q72.0 90.5 73.0 92.0\"/><circle cx=\"73.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M79 80 q11 -10.0 13 -8.0\"/><path d=\"M28 45.0 q-7.0 -7 0 -13\" opacity=\"0.60\"/><path d=\"M92 45.0 q7.0 -7 0 -13\" opacity=\"0.60\"/>", "<path d=\"M79.3 74.0Q76.8 80.3 73.9 86.0Q69.2 89.5 63.3 91.8Q57.2 90.9 49.9 90.0Q45.7 84.5 42.1 80.0Q41.2 74.1 41.5 68.1Q46.6 63.1 50.6 58.5Q57.3 58.1 63.4 56.2Q69.3 59.1 74.9 62.8Q77.2 67.9 79.3 74.0Z\"/><path d=\"M78.6 43.3Q75.9 47.6 73.0 53.3Q66.8 56.4 61.8 58.8Q56.8 57.3 50.5 56.9Q46.0 51.4 42.3 46.5Q42.6 41.0 43.0 35.2Q48.1 31.8 52.0 26.9Q58.5 26.2 64.2 25.7Q68.2 28.7 73.6 32.1Q75.8 37.1 78.6 43.3Z\"/><path d=\"M51.0 31.3Q48.2 25.8 46.5 20.7Q45.2 15.0 43.0 10.0Q41.3 19.3 40.6 29.4Q45.6 31.0 51.0 31.3Z\"/><path d=\"M78.6 33.9Q79.6 28.1 80.4 21.8Q81.3 16.1 83.0 10.0Q76.8 18.5 70.7 26.8Q75.3 30.2 78.6 33.9Z\"/><circle cx=\"56.1\" cy=\"40.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M53.5 35.0 q2.6 -2 5.2 -.4\"/><circle cx=\"69.1\" cy=\"40.0\" r=\"2.0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M66.5 35.0 q2.6 -2 5.2 -.4\"/><path d=\"M59.8 45.6 q2.8 3 5.6 0\" fill=\"#4A3226\" stroke=\"none\"/><path d=\"M51.0 84.0Q50.6 87.1 49.0 90.0Q47.9 90.6 47.0 92.0\"/><circle cx=\"47.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M69.0 84.0Q69.7 86.6 71.0 90.0Q71.9 91.4 73.0 92.0\"/><circle cx=\"73.0\" cy=\"92.0\" r=\"2.9\" fill=\"none\"/><path d=\"M79 80 q11 -6.0 13 -2.0\"/><path d=\"M28 46.0 q-7.0 -7 0 -13\" opacity=\"0.22\"/><path d=\"M92 46.0 q7.0 -7 0 -13\" opacity=\"0.22\"/>"]};
+const ART_RATE={drive:170,run:110,jump:150,dash:120,broom:190,alert:260};
+/* 3컷은 왕복(0,1,2,1)으로 돌려 자연스럽게 */
+function artSVG(key){
+  const fr=ART[key]; if(!fr) return "";
+  return '<div class="art"><svg viewBox="-5 -8 130 112" width="156" height="134" aria-hidden="true">'+
+    fr.map((s,i)=>'<g class="af" fill="none" stroke="#4A3226" stroke-width="2.3" '+
+      'stroke-linecap="round" stroke-linejoin="round"'+(i?' style="display:none"':'')+'>'+s+'</g>').join("")+
+    '</svg></div>';
+}
+function playArt(root,key){
+  if(REDUCE) return;
+  const gs=root.querySelectorAll(".af"); if(gs.length<2) return;
+  const n=gs.length, seq=n>2?[0,1,2,1]:[0,1];
+  let j=0;
+  const step=()=>{
+    if(!gs[0].isConnected) return;
+    if(document.hidden){ setTimeout(step,400); return; }
+    j=(j+1)%seq.length;
+    gs.forEach((g,i)=>g.style.display=(i===seq[j]?"":"none"));
+    setTimeout(step, ART_RATE[key]||160);
+  };
+  setTimeout(step, ART_RATE[key]||160);
+}
+
+/* ── 크레용으로 그린 통통한 별 5장 ── */
+const DRAWINGS=[
+  {o:"M11.48 1.88Q13.69 3.22 15.42 7.20Q20.01 7.02 21.74 8.76Q21.35 11.17 18.05 13.96Q19.45 18.06 18.68 20.52Q16.39 20.98 12.65 18.61Q8.81 21.56 6.02 21.50Q5.13 18.94 6.54 14.20Q2.58 11.66 1.75 9.37Q3.64 7.90 8.01 7.77Q9.34 3.48 11.71 1.67",
+   s:"M19.67 8.07L20.85 10.29L19.92 12.47L17.11 7.18L15.32 6.91L18.65 13.16L18.22 15.60L10.99 2.00L10.03 3.43L18.80 19.93L17.44 20.63L9.14 5.02L8.22 6.27L15.49 19.94L13.41 19.45L7.24 7.84L5.67 8.29L11.48 19.21L10.00 20.50L3.56 8.40L6.09 17.08L8.37 21.36",
+   w:2.0,c:2.0},
+  {o:"M13.10 0.78Q15.46 2.23 16.50 7.51Q20.93 7.96 22.58 9.78Q23.07 12.65 19.00 15.42Q19.20 19.67 17.14 21.64Q14.58 22.01 11.14 19.07Q6.64 21.50 3.96 20.84Q2.48 18.41 5.02 13.44Q1.39 10.33 1.79 8.00Q3.40 5.96 8.58 6.59Q10.57 1.64 12.74 0.45",
+   s:"M11.78 2.34L14.32 1.70L14.58 3.52L9.44 4.80L1.74 8.56L15.42 5.15L16.22 6.87L2.97 10.18L4.00 12.08L19.55 8.21L21.90 9.51L4.58 13.83L3.96 16.15L21.53 11.77L20.46 13.84L3.73 18.01L3.32 20.33L18.77 16.48L18.85 18.15L12.59 19.71L14.83 21.00L18.10 20.19",
+   w:2.4,c:2.3},
+  {o:"M10.01 1.06Q12.11 3.06 14.18 7.24Q18.35 6.44 21.02 7.05Q20.78 9.97 18.44 13.48Q20.47 17.47 19.75 19.82Q17.15 20.32 12.87 18.23Q9.93 21.32 7.49 22.19Q6.29 20.04 6.81 15.56Q3.31 13.60 1.98 11.34Q3.70 9.46 7.63 8.37Q8.40 3.71 9.76 0.80",
+   s:"M19.02 16.04L18.16 19.49L16.67 19.46L19.76 7.07L18.56 6.52L15.42 19.12L14.19 18.68L17.14 6.83L15.84 6.85L12.96 18.39L10.93 20.31L14.30 6.77L13.09 5.11L8.99 21.56L7.45 22.15L12.02 3.81L11.18 1.73L7.03 18.41L6.25 15.61L9.60 2.13L6.41 8.45L4.97 14.23L3.81 13.34L4.67 9.88",
+   w:1.8,c:1.8},
+  {o:"M12.31 1.68Q14.55 2.70 15.75 7.64Q22.04 7.30 23.65 9.32Q22.38 12.22 17.87 15.16Q19.59 20.14 18.73 22.49Q16.10 22.56 12.05 19.11Q7.95 22.09 5.86 20.28Q3.97 18.52 5.15 14.42Q1.55 11.63 2.08 9.14Q3.50 6.50 8.24 6.17Q9.93 2.25 11.74 1.19",
+   s:"M10.66 2.63L14.06 4.29L15.95 7.66L9.49 4.51L15.67 7.53L22.44 10.83L20.84 12.18L7.73 5.79L5.96 6.71L19.67 13.40L18.58 14.68L3.95 7.55L2.23 8.65L18.07 16.37L18.31 18.67L2.67 11.04L4.54 14.25L19.11 21.35L11.32 19.72L5.06 16.67L5.14 19.03L7.56 20.21",
+   w:2.2,c:2.2},
+  {o:"M13.70 1.16Q15.85 2.89 16.72 7.76Q21.03 8.62 22.54 10.65Q21.10 12.87 17.38 14.97Q18.24 19.89 17.18 22.52Q14.39 21.48 10.96 18.03Q6.35 20.40 3.49 20.28Q3.07 17.59 5.86 13.04Q2.18 9.52 1.92 7.00Q4.19 5.54 9.28 6.55Q11.42 2.69 14.03 0.79",
+   s:"M3.10 9.84L5.57 6.18L7.39 6.18L4.05 11.12L5.23 12.58L9.49 6.26L14.63 1.84L4.33 17.13L4.35 20.46L15.38 4.11L16.06 5.77L6.90 19.35L8.66 19.16L16.78 7.11L17.84 7.95L10.64 18.64L12.34 19.32L19.71 8.38L20.91 9.56L13.73 20.20L14.94 21.25L17.38 17.62L17.52 19.86L16.13 21.92",
+   w:2.0,c:1.9},
+];
+const SS=17, GAP=1.5, CELL=SS+GAP, SW=5*CELL-GAP;
+const C_DIM="#E5D9C4", C_LIT="#F3B63E", C_EDGE="#D5892A";
+let uid=0;
+
+/* 5장을 defs에 한 번만 정의하고, 각 별은 참조(use)만 함 → 교체가 가볍다 */
+const SPARK="M0 -3.4Q.55 -.65 3.4 0Q.55 .65 0 3.4Q-.55 .65 -3.4 0Q-.55 -.65 0 -3.4Z";
+document.getElementById("lib").insertAdjacentHTML("afterbegin","<defs>"+
+  DRAWINGS.map((d,i)=>'<path id="so'+i+'" d="'+d.o+'"/><path id="ss'+i+'" d="'+d.s+
+    '"/><clipPath id="gc'+i+'"><path d="'+d.o+'"/></clipPath>').join("")+
+  '<linearGradient id="glossG" x1="0" y1="0" x2="1" y2="0">'+
+  '<stop offset="0" stop-color="#fff" stop-opacity="0"/>'+
+  '<stop offset=".42" stop-color="#fff" stop-opacity=".72"/>'+
+  '<stop offset=".55" stop-color="#FFF6DC" stop-opacity=".9"/>'+
+  '<stop offset=".7" stop-color="#fff" stop-opacity=".5"/>'+
+  '<stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'+
+  "</defs>");
+
+function starsSVG(v,delay){
+  const id="s"+(uid++); let out="";
+  for(let i=0;i<5;i++){
+    const f=Math.max(0,Math.min(1,v-i));
+    const k=(Math.random()*DRAWINGS.length)|0;
+    const D=DRAWINGS[k], R='" stroke-linecap="round" stroke-linejoin="round"/>';
+    const gd=(2.2+Math.random()*1.9).toFixed(2);      /* 광택 주기 2.2~4.1초 */
+    const gdl=(-Math.random()*4).toFixed(2);          /* 시작 시점을 흩뜨림 */
+    let inner='<use class="uOut" href="#so'+k+'" fill="none" stroke="'+C_DIM+'" stroke-width="'+D.w+R;
+    if(f>0){
+      inner='<defs><clipPath id="'+id+'_'+i+'"><rect x="-4" y="-4" width="'+(f>=1?32:16)+
+        '" height="32"/></clipPath></defs>'+inner+
+        '<g clip-path="url(#'+id+'_'+i+')">'+
+        '<use class="uScr" href="#ss'+k+'" fill="none" stroke="'+C_LIT+'" stroke-width="'+D.c+
+        '" stroke-linecap="round" opacity=".92"/>'+
+        '<use class="uEdge" href="#so'+k+'" fill="none" stroke="'+C_EDGE+'" stroke-width="'+(D.w+.2)+R+
+        '<g class="gl" clip-path="url(#gc'+k+')"><g transform="rotate(20 12 12)">'+
+        '<rect class="gsweep" x="-6" y="-9" width="11" height="42" fill="url(#glossG)" '+
+        'style="--gd:'+gd+'s;animation-delay:'+gdl+'s"/>'+
+        '</g></g>'+
+        '<g transform="translate('+(f>=1?17.5:6.5)+',4.5)"><path class="twk" d="'+SPARK+'" '+
+        'fill="#FFFBEF" stroke="#F6C85A" stroke-width=".5" '+
+        'style="--gd:'+gd+'s;animation-delay:'+gdl+'s"/></g>'+
+        '</g>';
+    }
+    out+='<g transform="translate('+(i*CELL)+',0)">'+
+      '<g class="st" style="animation-delay:'+(REDUCE?0:delay+i*.06)+'s">'+
+      '<g class="stIn" data-k="'+k+'"><g transform="scale('+(SS/24)+')">'+inner+'</g></g></g></g>';
+  }
+  return '<svg class="stars" width="'+SW+'" height="'+(SS+14)+'" viewBox="0 -11 '+SW+' '+(SS+14)+
+    '" aria-hidden="true">'+out+'</svg>';
+}
+
+/* 참조 대상만 바꿔 다른 그림으로 교체 */
+function drawTo(n,k){
+  const D=DRAWINGS[k]; n.dataset.k=k;
+  const o=n.querySelector(".uOut"), sc=n.querySelector(".uScr"), ed=n.querySelector(".uEdge");
+  o.setAttribute("href","#so"+k); o.setAttribute("stroke-width",D.w);
+  if(sc){ sc.setAttribute("href","#ss"+k); sc.setAttribute("stroke-width",D.c);
+          ed.setAttribute("href","#so"+k); ed.setAttribute("stroke-width",D.w+.2);
+          const gl=n.querySelector(".gl");
+          if(gl) gl.setAttribute("clip-path","url(#gc"+k+")"); }
+}
+
+/* ── 작화 재생 : 멈추는 구간 없이 계속 다음 장으로 넘어감 ──
+   별마다 46~76ms 사이 난수 간격이라 30개가 절대 같은 박자로 안 맞음 */
+function liven(root,startAfter){
+  if(REDUCE) return;
+  root.querySelectorAll(".stIn").forEach((n,i)=>{
+    let last=+n.dataset.k;
+    const step=()=>{
+      if(!n.isConnected) return;                       /* 사라진 별은 재생 중단 */
+      if(document.hidden){ setTimeout(step,400); return; }
+      let k; do{ k=(Math.random()*DRAWINGS.length)|0; }while(k===last);
+      last=k; drawTo(n,k);
+      setTimeout(step, 46+Math.random()*30);
+    };
+    setTimeout(step, startAfter*1000+i*40+Math.random()*220);
+  });
+}
+
+const rows=document.getElementById("rows");
+STATS.forEach((s,i)=>{
+  const b=document.createElement("button");
+  b.className="row";
+  b.style.animationDelay=(1.7+i*.09)+"s";
+  b.setAttribute("aria-label",s.name+" 별 "+s.stars+"개, 5개 만점");
+  b.innerHTML='<span class="rname"></span><span class="rsub"></span>'+
+    starsSVG(s.stars,1.9+i*.09)+'<span class="chev">›</span>';
+  b.querySelector(".rname").textContent=s.name;
+  b.querySelector(".rsub").textContent=s.sub;
+  b.addEventListener("click",()=>{sfxOpen(i); openSheet(i);});
+  rows.appendChild(b);
+});
+liven(rows, 2.5);
+
+/* 레이더 그래프: 가운데에서 통통 튀며 펼쳐짐 */
+const poly=document.getElementById("poly");
+const setShape=k=>{
+  poly.setAttribute("points",STATS.map((s,i)=>pt(i,s.stars/5*k).join(",")).join(" "));
+  STATS.forEach((s,i)=>{const [x,y]=pt(i,s.stars/5*k);
+    dots[i].setAttribute("cx",x); dots[i].setAttribute("cy",y);});
+};
+setShape(0.04);
+if(REDUCE){ setShape(1); }
+else{
+  const DUR=950, START=performance.now()+1250;
+  const back=t=>{const c=1.9;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2);};
+  (function tick(now){
+    const t=(now-START)/DUR;
+    if(t>=1){setShape(1);return;}
+    if(t>0) setShape(.04+back(t)*.96);
+    requestAnimationFrame(tick);
+  })(performance.now());
+}
+
+/* 상세 시트 */
+const sheet=document.getElementById("sheet"), scrim=document.getElementById("scrim"),
+      body=document.getElementById("sheetBody");
+
+function openSheet(i){
+  const s=STATS[i];
+  body.innerHTML=
+    artSVG(s.art)+
+    '<div class="sh-top"><div><div class="sh-name"></div><div class="sh-sub"></div></div>'+
+    starsSVG(s.stars,.12)+'</div><p class="sh-head"></p>'+
+    s.points.map((_,k)=>'<div class="li" style="animation-delay:'+(.14+k*.08)+
+      's"><svg width="15" height="15" viewBox="0 0 24 24"><use href="#paw"/></svg><span></span></div>').join("")+
+    '<button class="close">닫기</button>';
+  body.querySelector(".sh-name").textContent=s.name;
+  body.querySelector(".sh-sub").textContent=s.sub;
+  body.querySelector(".sh-head").textContent=s.headline;
+  body.querySelectorAll(".li span").forEach((n,k)=>n.textContent=s.points[k]);
+  playArt(body, s.art);
+  liven(body, .8);
+  body.querySelector(".close").addEventListener("click",()=>{sfxClose(); close();});
+  sheet.classList.add("on"); scrim.classList.add("on");
+  document.querySelectorAll(".lbl").forEach((g,k)=>g.classList.toggle("on",k===i));
+  dots.forEach((d,k)=>d.setAttribute("r",k===i?8.5:5));
+}
+function close(){
+  sheet.classList.remove("on"); scrim.classList.remove("on");
+  document.querySelectorAll(".lbl").forEach(g=>g.classList.remove("on"));
+  dots.forEach(d=>d.setAttribute("r",5));
+}
+scrim.addEventListener("click",()=>{sfxClose(); close();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){sfxClose(); close();}});
+
+/* 경력사항 팝업 : 강아지 애니는 기존 art 중 하나(jump)를 재사용 */
+function openCareer(){
+  body.innerHTML =
+    artSVG("jump")+
+    '<div class="sh-top"><div><div class="sh-name">경력사항</div>'+
+    '<div class="sh-sub">한눈에 보기</div></div></div>'+
+    '<p class="sh-head">지금까지 쌓아온 경력입니다.</p>'+
+    CAREER.map((_,k)=>'<div class="li" style="animation-delay:'+(.14+k*.08)+
+      's"><svg width="15" height="15" viewBox="0 0 24 24"><use href="#paw"/></svg><span></span></div>').join("")+
+    '<button class="close">닫기</button>';
+  body.querySelectorAll(".li span").forEach((n,k)=>{
+    const c=CAREER[k];
+    n.textContent=c.period+" · "+c.place+" — "+c.desc;
+  });
+  playArt(body,"jump");
+  liven(body,.8);
+  body.querySelector(".close").addEventListener("click",()=>{sfxClose(); close();});
+  sheet.classList.add("on"); scrim.classList.add("on");
+}
+document.getElementById("careerBtn").addEventListener("click",()=>{sfxOpen(99); openCareer();});
+</script>
+</body>
+</html>
